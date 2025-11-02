@@ -62,8 +62,6 @@ module.exports.renderEditForm = async (req, res) => {
         let originalImageUrl = listing.image.url;
         originalImageUrl = originalImageUrl.replace('/upload', '/upload/w_200');
         res.render("listings/edit.ejs", { listing, originalImageUrl });
-
-        // res.render("listings/edit.ejs", { listing });
     }
 };
 
@@ -89,4 +87,29 @@ module.exports.destroyListing = async (req, res) => {
     console.log(deletedListing);
     req.flash('success', 'Listing Deleted!');
     res.redirect("/listings");
+};
+
+module.exports.search = async (req, res) => {
+    try {
+        const { q } = req.query;
+
+        if (!q || q.trim() === "") {
+            return res.render("listings/search.ejs", { listings: [], query: "" });
+        }
+
+        const regex = new RegExp(q, "i"); // case-insensitive
+
+        const listings = await Listing.find({
+            $or: [
+                { location: regex },
+                { country: regex },
+                { title: regex },
+            ],
+        }).limit(20);
+
+        res.render("listings/search.ejs", { listings, query: q });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Server error");
+    }
 };

@@ -26,7 +26,14 @@ const listingSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
     },
-    
+
+});
+
+// Text index (very important!)
+listingSchema.index({
+    location: "text",
+    country: "text",
+    title: "text",
 });
 
 listingSchema.post('findOneAndDelete', async (listing) => {

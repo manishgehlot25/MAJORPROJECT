@@ -9,14 +9,14 @@ const userController = require('../controllers/users.js');
 
 // SignUP Route- 
 router.route('/signup')
-.get( userController.renderSignupForm)
-.post( wrapAsync(userController.signUp));
+    .get(userController.renderSignupForm)
+    .post(wrapAsync(userController.signUp));
 
 
 // Login Route-
 router.route('/login')
-.get( userController.loginForm)
-.post( saveRedirectUrl, passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }), userController.login);
+    .get(userController.loginForm)
+    .post(saveRedirectUrl, passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }), userController.login);
 
 // LogOut Route-
 router.get('/logout', userController.logout);

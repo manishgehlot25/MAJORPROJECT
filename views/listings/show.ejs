@@ -1,5 +1,11 @@
 <% layout('/layouts/boilerplate') %>
 
+  <style>
+    .review-border {
+      border-left: 1px solid rgb(87, 87, 87) !important;
+    }
+  </style>
+
   <div class="row mt-3">
     <div class="col-8 offset-3">
 
@@ -29,9 +35,6 @@
           <%= listing.country %>
         </p>
 
-
-
-
       </div>
     </div>
 
@@ -52,10 +55,6 @@
           <% if(currUser) { %>
             <h4>Leave a Review</h4>
             <form method="post" action="/listings/<%= listing.id %>/reviews" novalidate class="needs-validation">
-              <!-- <div class="mb-3 mt-3">
-                <label for="rating" class="form-label">Rating</label>
-                <input type="range" min="1" max="5" id="rating" name="review[rating]" class="form-range">
-              </div> -->
 
               <div class="mb-3 mt-3">
                 <label for="rating" class="form-label">Rating</label>
@@ -92,7 +91,7 @@
                 <div class="row">
                   <p><b>All Reviews</b></p>
                   <% for(review of listing.reviews) { %>
-                    <div class="card col-5 ms-3 mb-3">
+                    <div class="card col-8 ms-3 mb-3 review-border" style="border: none;">
                       <div class="card-body">
                         <h5 class="card-title">@<%= review.author.username %>
                         </h5>
@@ -116,7 +115,7 @@
 
 
 
-        <div class="col-6 offset-3 mb-3">
+        <div class="col-8 offset-3 mb-3">
           <h3>Where you'll be</h3>
           <gmp-map center="<%= lat %>, <%= lng %>" zoom="11" map-id="DEMO_MAP_ID" style="height: 300px">
           </gmp-map>

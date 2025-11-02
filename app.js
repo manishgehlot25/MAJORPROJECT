@@ -1,4 +1,4 @@
-if(process.env.NODE_ENV != 'production') {
+if (process.env.NODE_ENV != 'production') {
   require('dotenv').config();
 }
 
@@ -32,7 +32,11 @@ main()
   .catch(err => console.log(err));
 
 async function main() {
-  await mongoose.connect(dbUrl); 
+  await mongoose.connect(dbUrl, {
+    ssl: true,
+    tlsAllowInvalidCertificates: true, // only for local testing, not production
+    // tlsInsecure: true                  // same as above
+  });
 }
 
 app.set('view engine', 'ejs');
@@ -57,14 +61,14 @@ store.on('error', () => {
 
 const sessionOption = {
   store,
-    secret : process.env.SECRET,
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-      expires: Date.now() + 7*24*60*60*1000,
-      maxAge: 7*24*60*60*1000,
-      httpOnly: true,
-    },
+  secret: process.env.SECRET,
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    httpOnly: true,
+  },
 };
 
 
@@ -87,16 +91,6 @@ app.use((req, res, next) => {
   res.locals.currUser = req.user;
   next();
 });
-
-// app.get('/demouser', async (req, res) => {
-//   let fakeUser = new User ({
-//     email: 'student@gmail.com',
-//     username : 'manish'
-//   });
-
-//   let registeredUser = await User.register(fakeUser, 'helloworld');
-//   res.send(registeredUser);
-// });
 
 app.use('/listings', listingRouter);
 app.use('/listings/:id/reviews', reviewRouter);

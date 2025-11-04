@@ -1,13 +1,13 @@
 <style>
     .search-btn {
-        background-color: #fe424d;
+        background-color: #ff385c;
         color: #fff;
         border-radius: 25px;
         padding: 0 1rem 0 1rem;
     }
 
     .search-btn:hover {
-        background-color: #fe424d;
+        background-color: #ff424d;
         color: #fff;
     }
 
@@ -32,9 +32,10 @@
     }
 
     .show-after-none {
-        color: #fe424d !important;
+        color: #ff385c !important;
         font-size: 1.5rem;
         font-weight: bold;
+        margin-left: 0.5rem;
     }
 
     @media (max-width:900px) {
@@ -43,13 +44,7 @@
         }
     }
 
-    @media (max-width:767px) {
-        .show-before-none {
-            display: none;
-        }
-    }
-
-    @media (min-width:767px) {
+    @media (min-width:768px) {
         .show-after-none {
             display: none;
         }
@@ -58,8 +53,8 @@
 
 <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
     <div class="container-fluid">
-        <a class="navbar-brand show-before-none" href="/listings"><i class="fa-regular fa-compass"></i></a>
-        <a class="navbar-brand show-after-none" href="/listings">WanderLust</a>
+        <a class="navbar-brand" href="/listings"><i class="fa-regular fa-compass"></i><span class="show-after-none">WanderLust</span></a>
+
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
             <span class="navbar-toggler-icon"></span>
         </button>

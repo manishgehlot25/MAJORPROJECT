@@ -1,0 +1,485 @@
+<% layout('/layouts/boilerplate') %>
+
+    <style>
+        /* ---------- Base ---------- */
+        :root {
+            --brand: #ff385c;
+            --muted: #6b7280;
+            --glass-bg: rgba(255, 255, 255, 0.45);
+            --glass-border: rgba(255, 255, 255, 0.14);
+            --card-radius: 14px;
+        }
+
+        a {
+            color: #ff385c;
+            text-decoration: none
+        }
+
+        /* ---------- LOADER (full-screen) ---------- */
+        .page-loader {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(180deg, rgba(10, 10, 10, 0.05), rgba(255, 255, 255, 0.0));
+            z-index: 9999;
+            backdrop-filter: blur(4px);
+            transition: opacity .35s ease, visibility .35s ease;
+        }
+
+        .loader-card {
+            background: #fff;
+            padding: 28px;
+            border-radius: 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(16, 24, 40, 0.12);
+            min-width: 260px;
+        }
+
+        .loader-logo {
+            font-weight: 700;
+            color: var(--brand);
+            font-size: 22px;
+            margin-bottom: 12px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .loader-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--brand);
+            animation: loader-pulse 1s infinite;
+        }
+
+        .loader-sub {
+            color: var(--muted);
+            font-size: 13px;
+            margin-bottom: 14px
+        }
+
+        .loader-spinner {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 4px solid #eee;
+            border-top-color: var(--brand);
+            animation: spin .9s linear infinite;
+            margin-bottom: 6px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        @keyframes loader-pulse {
+            0% {
+                transform: scale(1)
+            }
+
+            50% {
+                transform: scale(.7)
+            }
+
+            100% {
+                transform: scale(1)
+            }
+        }
+
+        .page-loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none
+        }
+
+        .btn-pill {
+            padding: 8px 14px;
+            border-radius: 999px;
+            font-weight: 600;
+            background: var(--brand);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(255, 56, 108, 0.18);
+            transition: transform .18s;
+        }
+
+        .btn-ghost {
+            padding: 6px 10px;
+            border-radius: 10px;
+            background: transparent;
+            border: 1px solid rgba(15, 23, 42, 0.06)
+        }
+
+        /* ---------- HERO ---------- */
+        .hero {
+            min-height: calc(70vh - 140px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px 80px;
+            position: relative;
+            overflow: visible;
+        }
+
+        .hero-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 40px 20px;
+            border-radius: 20px;
+        }
+
+        .hero-title {
+            font-size: 48px;
+            line-height: 1.02;
+            font-weight: 800;
+            color: #0f172a
+        }
+
+        .hero-sub {
+            margin-top: 14px;
+            color: var(--muted);
+            font-size: 16px
+        }
+
+        .hero-ctas {
+            margin-top: 28px;
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap
+        }
+
+        /* floating decorative elements */
+        .float-elem {
+            position: absolute;
+            border-radius: 999px;
+            opacity: .9;
+            filter: blur(6px);
+            transform: translate3d(0, 0, 0);
+            animation: floaty 6s ease-in-out infinite;
+        }
+
+        .float-a {
+            width: 160px;
+            height: 160px;
+            right: 6%;
+            top: 10%;
+            background: linear-gradient(135deg, rgba(255, 56, 108, 0.15), rgba(255, 197, 215, 0.05))
+        }
+
+        .float-b {
+            width: 120px;
+            height: 120px;
+            left: 4%;
+            top: 22%;
+            background: linear-gradient(135deg, rgba(34, 211, 238, 0.08), rgba(99, 102, 241, 0.04));
+            animation-delay: 1s
+        }
+
+        @keyframes floaty {
+            0% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(-14px)
+            }
+
+            100% {
+                transform: translateY(0)
+            }
+        }
+
+        /* ---------- INTERACTIVE CARDS ---------- */
+        .features {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: stretch;
+            padding: 80px 20px
+        }
+
+        .feat-card {
+            background: #fff;
+            flex: 1;
+            min-width: 220px;
+            border-radius: var(--card-radius);
+            padding: 26px;
+            box-shadow: 0 10px 30px rgba(2, 6, 23, 0.06);
+            transition: transform .35s cubic-bezier(.2, .9, .2, 1), box-shadow .35s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .feat-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 18px 40px rgba(2, 6, 23, 0.09)
+        }
+
+        .feat-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #fef2f2, #fffdf9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: var(--brand)
+        }
+
+        .feat-title {
+            font-weight: 700;
+            font-size: 18px
+        }
+
+        .feat-desc {
+            color: var(--muted);
+            font-size: 14px
+        }
+
+        .feat-cta {
+            margin-top: auto;
+            display: flex;
+            gap: 8px;
+            align-items: center
+        }
+
+        /* Marquee */
+        .marquee {
+            margin: 50px 0;
+            background: linear-gradient(90deg, #ff9fb8, #ff385c);
+            color: #fff;
+            padding: 12px 0;
+            overflow: hidden;
+        }
+
+        .marquee .track {
+            display: inline-block;
+            white-space: nowrap;
+            padding-left: 100%;
+            animation: marquee 16s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0%)
+            }
+
+            100% {
+                transform: translateX(-100%)
+            }
+        }
+
+        /* CTA banner */
+        .big-cta {
+            padding: 44px 20px;
+            border-radius: 18px;
+            background: linear-gradient(180deg, #fff 0%, #fff);
+            box-shadow: 0 8px 28px rgba(2, 6, 23, 0.06);
+            text-align: center;
+            margin: 40px auto
+        }
+
+        .big-title {
+            font-size: 24px;
+            font-weight: 800
+        }
+
+        .big-sub {
+            margin-top: 10px;
+            color: var(--muted)
+        }
+
+        /* ---------- RESPONSIVE ---------- */
+        @media (max-width: 992px) {
+            .hero-title {
+                font-size: 40px
+            }
+
+            .features {
+                flex-direction: column;
+                padding: 40px 12px
+            }
+
+            /* .hero-ill {
+                bottom: -90px
+            } */
+        }
+
+        @media (max-width: 680px) {
+            .hero-title {
+                font-size: 28px
+            }
+
+            .hero-sub {
+                font-size: 14px
+            }
+
+            .hero {
+                padding-top: 20px;
+                padding-bottom: 40px
+            }
+        }
+
+        /* small helper */
+        .muted {
+            color: var(--muted);
+            font-size: 13px
+        }
+    </style>
+    </head>
+
+    <body>
+
+        <!-- ---------- Page Loader ---------- -->
+        <div id="pageLoader" class="page-loader" aria-hidden="false" role="status">
+            <div class="loader-card" aria-live="polite">
+                <div class="loader-logo"><span style="font-size:18px">WanderLust</span><span class="loader-dot"
+                        aria-hidden="true"></span></div>
+                <div class="loader-sub">Preparing your journey...</div>
+                <div class="loader-spinner" aria-hidden="true"></div>
+                <div class="muted" style="margin-top:8px">Fast, playful and responsive — hang tight ✨</div>
+            </div>
+        </div>
+
+        <!-- ---------- HERO ---------- -->
+        <main>
+            <section class="hero" id="hero" aria-label="Hero">
+                <div class="hero-inner container">
+                    <h1 class="hero-title">Discover Stays. Unlock Experiences.</h1>
+                    <p class="hero-sub">Travel differently — host, explore & enjoy WanderLust. No listings here — this
+                        is your
+                        gateway.</p>
+
+                    <div class="hero-ctas" role="group" aria-label="Primary actions">
+                        <a class="btn-pill" href="/listings">Start Exploring</a>
+                        <a class="btn-ghost" href="/listings/new" style="padding:8px 14px;border-radius:999px">Become a
+                            Host</a>
+                        <a class="btn-ghost" href="/listings" style="padding:8px 14px;border-radius:999px">Plan a
+                            Tour</a>
+                    </div>
+                </div>
+
+                <!-- Decorative floating shapes -->
+                <div class="float-elem float-a" aria-hidden="true"></div>
+                <div class="float-elem float-b" aria-hidden="true"></div>
+            </section>
+
+            <!-- ---------- Features (interactive cards) ---------- -->
+            <section class="features container" aria-label="Explore options">
+                <article class="feat-card" tabindex="0" role="button" aria-pressed="false"
+                    onclick="location.href='/listings'">
+                    <div class="feat-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <div class="feat-title">Stay as a Guest</div>
+                    <p class="feat-desc">Find cozy homes & secret spots recommended by locals.</p>
+                    <div class="feat-cta"><a href="/listings" class="muted">Start exploring →</a></div>
+                </article>
+
+                <article class="feat-card" tabindex="0" role="button" aria-pressed="false"
+                    onclick="location.href='/listings/new'">
+                    <div class="feat-icon"><i class="fas fa-home"></i></div>
+                    <div class="feat-title">Become a Host</div>
+                    <p class="feat-desc">Earn money by sharing your space. We help with onboarding, pricing & trust.</p>
+                    <div class="feat-cta"><a href="/listings/new" class="muted">List your place →</a></div>
+                </article>
+
+                <article class="feat-card" tabindex="0" role="button" aria-pressed="false"
+                    onclick="location.href='/listings'">
+                    <div class="feat-icon"><i class="fas fa-route"></i></div>
+                    <div class="feat-title">Plan Adventures</div>
+                    <p class="feat-desc">Book guided tours, rent gear & get the local experience.</p>
+                    <div class="feat-cta"><a href="/listings" class="muted">Plan a tour →</a></div>
+                </article>
+            </section>
+
+            <!-- ---------- Marquee ---------- -->
+            <section class="marquee" aria-hidden="true">
+                <div class="container">
+                    <div class="track">Explore • Relax • Adventure • Discover • Travel • Stay • Explore • Relax •
+                        Adventure •
+                        Discover •</div>
+                </div>
+            </section>
+
+            <!-- ---------- Big CTA ---------- -->
+            <section class="container big-cta" aria-label="Get started">
+                <div class="big-title">Your Journey Begins Here</div>
+                <div class="big-sub">The world is waiting. Whether you're visiting, hosting, or planning tours —
+                    WanderLust is
+                    your gateway.</div>
+                <div style="margin-top:18px">
+                    <a class="btn-pill" href="/listings" style="font-size:16px;padding:12px 22px">Start Now</a>
+                </div>
+            </section>
+        </main>
+
+        <!-- ---------- Scripts ---------- -->
+        <script>
+            // -------------------- Loader logic --------------------
+            (function () {
+                const loader = document.getElementById('pageLoader');
+
+                // Simulate load progress (replace with real asset load listeners if desired)
+                // Hide loader when page is fully loaded OR after 2 seconds (whichever is later)
+                window.addEventListener('load', () => {
+                    // ensure at least 700ms show for perceived smoothness
+                    setTimeout(() => { hideLoader(); }, 700);
+                });
+
+                // Fallback: hide loader after 3.5s even if load event didn't fire yet (keeps UX snappy)
+                setTimeout(() => { if (!loader.classList.contains('hidden')) hideLoader(); }, 3500);
+
+                function hideLoader() {
+                    loader.classList.add('hidden');
+                    loader.setAttribute('aria-hidden', 'true');
+                }
+            })();
+
+            // -------------------- Small enhancements --------------------
+            (function () {
+                // Insert current year
+                document.getElementById('year').textContent = new Date().getFullYear();
+
+                // Keyboard accessibility: allow cards to act as clickables with Enter
+                document.querySelectorAll('.feat-card').forEach(c => {
+                    c.addEventListener('keydown', e => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            c.click();
+                        }
+                    });
+                });
+
+                // Simple reveal-on-scroll using IntersectionObserver
+                const io = new IntersectionObserver((entries) => {
+                    entries.forEach(en => {
+                        if (en.isIntersecting) {
+                            en.target.style.transition = 'opacity .6s ease, transform .6s cubic-bezier(.2,.9,.2,1)';
+                            en.target.style.opacity = 1;
+                            en.target.style.transform = 'translateY(0)';
+                            io.unobserve(en.target);
+                        }
+                    });
+                }, { threshold: 0.18 });
+
+                document.querySelectorAll('.feat-card, .big-cta, .marquee, .hero-inner').forEach(el => {
+                    el.style.opacity = 0; el.style.transform = 'translateY(10px)';
+                    io.observe(el);
+                });
+            })();
+        </script>
+    </body>
+
+    </html>

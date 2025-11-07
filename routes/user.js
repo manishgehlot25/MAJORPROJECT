@@ -10,6 +10,9 @@ const userController = require('../controllers/users.js');
 // Root Route -
 router.get("/", userController.root);
 
+// Rental Route - 
+router.get("/rentals", userController.rental);
+
 // SignUP Route- 
 router.route('/signup')
     .get(userController.renderSignupForm)

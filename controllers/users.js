@@ -47,3 +47,7 @@ module.exports.logout = (req, res, next) => {
 module.exports.root = (req, res) => {
     res.render('listings/root.ejs');
 };
+
+module.exports.rental = (req, res) => {
+    res.render('listings/rental.ejs');
+};

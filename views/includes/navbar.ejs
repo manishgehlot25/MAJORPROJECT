@@ -38,6 +38,22 @@
         margin-left: 0.5rem;
     }
 
+    .profile {
+        list-style-type: none;
+        position: absolute;
+        top: 5rem;
+        right: 0.5rem;
+        background-color: #ffffff;
+    }
+
+    .profile-switch :hover {
+        cursor: pointer;
+    }
+
+    .profile-info {
+        display: none;
+    }
+
     @media (max-width:900px) {
         .show-none {
             display: none;
@@ -49,11 +65,24 @@
             display: none;
         }
     }
+
+    @media (max-width:767px) {
+        .user-icon {
+            display: none;
+        }
+    }
+
+    @media (min-width:767px) {
+        .non-user-icon {
+            display: none;
+        }
+    }
 </style>
 
 <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/listings"><i class="fa-regular fa-compass"></i><span class="show-after-none">WanderLust</span></a>
+        <a class="navbar-brand" href="/listings"><i class="fa-regular fa-compass"></i><span
+                class="show-after-none">WanderLust</span></a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
             <span class="navbar-toggler-icon"></span>
@@ -83,9 +112,46 @@
                     <% } %>
 
                         <% if(currUser) { %>
-                            <a class="nav-link" href="/logout"><b>Log out</b></a>
+                            <div class="user-icon">
+                                <div id="profile-switch">
+                                    <i class="fa-solid fa-user-secret" style="font-size: xx-large;">
+                                    </i>
+                                </div>
+
+                                <div class="profile-info">
+                                    <ul class="profile">
+                                        <li><i class="fa-solid fa-user"></i> <b>
+                                                <%= currUser.username %>
+                                            </b>
+                                        </li>
+                                        <li><a class="nav-link" href="/logout"><b>Log out</b></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="non-user-icon">
+                                <i class="fa-solid fa-user"></i> <b>
+                                    <%= currUser.username %>
+                                </b>
+                                <a class="nav-link" href="/logout"><b>Log out</b></a>
+                            </div>
+
                             <% } %>
             </div>
         </div>
     </div>
 </nav>
+
+<script>
+    let profileSwitch = document.getElementById('profile-switch');
+    profileSwitch.addEventListener('click', () => {
+        let profileInfo = document.getElementsByClassName('profile-info');
+        for (info of profileInfo) {
+            if (info.style.display != 'inline') {
+                info.style.display = 'inline';
+            } else {
+                info.style.display = 'none';
+            }
+        }
+    });
+</script>

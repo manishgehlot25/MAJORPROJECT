@@ -367,7 +367,7 @@
                         <a class="btn-pill" href="/listings">Start Exploring</a>
                         <a class="btn-ghost" href="/listings/new" style="padding:8px 14px;border-radius:999px">Become a
                             Host</a>
-                        <a class="btn-ghost" href="/listings" style="padding:8px 14px;border-radius:999px">Plan a
+                        <a class="btn-ghost" href="/rentals" style="padding:8px 14px;border-radius:999px">Plan a
                             Tour</a>
                     </div>
                 </div>
@@ -396,11 +396,11 @@
                 </article>
 
                 <article class="feat-card" tabindex="0" role="button" aria-pressed="false"
-                    onclick="location.href='/listings'">
+                    onclick="location.href='/rentals'">
                     <div class="feat-icon"><i class="fas fa-route"></i></div>
                     <div class="feat-title">Plan Adventures</div>
                     <p class="feat-desc">Book guided tours, rent gear & get the local experience.</p>
-                    <div class="feat-cta"><a href="/listings" class="muted">Plan a tour →</a></div>
+                    <div class="feat-cta"><a href="/rentals" class="muted">Plan a tour →</a></div>
                 </article>
             </section>
 
@@ -431,14 +431,10 @@
             (function () {
                 const loader = document.getElementById('pageLoader');
 
-                // Simulate load progress (replace with real asset load listeners if desired)
-                // Hide loader when page is fully loaded OR after 2 seconds (whichever is later)
                 window.addEventListener('load', () => {
-                    // ensure at least 700ms show for perceived smoothness
                     setTimeout(() => { hideLoader(); }, 700);
                 });
 
-                // Fallback: hide loader after 3.5s even if load event didn't fire yet (keeps UX snappy)
                 setTimeout(() => { if (!loader.classList.contains('hidden')) hideLoader(); }, 3500);
 
                 function hideLoader() {
@@ -452,7 +448,6 @@
                 // Insert current year
                 document.getElementById('year').textContent = new Date().getFullYear();
 
-                // Keyboard accessibility: allow cards to act as clickables with Enter
                 document.querySelectorAll('.feat-card').forEach(c => {
                     c.addEventListener('keydown', e => {
                         if (e.key === 'Enter' || e.key === ' ') {
@@ -462,7 +457,6 @@
                     });
                 });
 
-                // Simple reveal-on-scroll using IntersectionObserver
                 const io = new IntersectionObserver((entries) => {
                     entries.forEach(en => {
                         if (en.isIntersecting) {

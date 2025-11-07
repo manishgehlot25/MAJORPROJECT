@@ -115,13 +115,6 @@ body {
     height: 30vh;
 }
 
-@media (max-width: 500px) {
-    .show-img {
-        height: 20vh;
-        width: 25vh !important;
-    }
-}
-
 .btns {
     display: flex;
     flex-wrap: wrap;
@@ -130,4 +123,26 @@ body {
 .show-card {
     padding-left: 0;
     padding-right: 0;
+}
+
+@media (max-width:767px) {
+    .offset-2 {
+        margin-left: 5% !important;
+    }
+
+    .offset-3 {
+        margin-left: 5% !important;
+    }
+
+    .col-5 {
+        width: 90% !important;
+    }
+
+    .col-6 {
+        width: 90% !important;
+    }
+
+    .col-8 {
+        width: 90% !important;
+    }
 }

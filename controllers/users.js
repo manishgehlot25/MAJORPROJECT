@@ -88,7 +88,7 @@ module.exports.sendOTP = async (req, res) => {
     }
   }
   catch (err) {
-    res.status(500).render('error.ejs', { message: "Server Error" });
+    res.status(500).render('error.ejs', { message: err });
   }
 };
 

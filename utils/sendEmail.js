@@ -4,13 +4,13 @@ module.exports.sendEmail = async (to, otp) => {
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS
+      user: "gehlot9868@gmail.com",
+      pass: "rhum jzoh uxwp yrjc"
     }
   });
 
   const mailOptions = {
-    from: `WanderLust <${process.env.EMAIL_USER}>`,
+    from: `WanderLust <gehlot9868@gmail.com>`,
     to,
     subject: "Your WanderLust Email Verification Code",
     html: `

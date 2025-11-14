@@ -1,0 +1,123 @@
+<% layout('/layouts/boilerplate') %>
+
+  <style>
+    .otp-body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 70vh;
+    }
+
+    .otp-container {
+      background: white;
+      padding: 45px 50px;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+      animation: fadeIn .4s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      font-size: 26px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .sub-text {
+      margin-top: 8px;
+      margin-bottom: 28px;
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    .error {
+      color: #ff385c;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    .email-input {
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1.7px solid #d1d5db;
+      outline: none;
+      font-size: 15px;
+      transition: .25s;
+    }
+
+    .email-input:focus {
+      border-color: #ff385c;
+      box-shadow: 0 0 6px rgba(255, 56, 108, 0.25);
+    }
+
+    .send-btn {
+      margin-top: 22px;
+      background: #ff385c;
+      color: white;
+      border: none;
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: .25s;
+    }
+
+    .send-btn:hover {
+      transform: translateY(-2px);
+      background: #e62f50;
+    }
+
+    .login-msg {
+      margin-top: 16px;
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    .login-msg a {
+      color: #ff385c;
+      font-weight: 600;
+      text-decoration: none;
+    }
+  </style>
+
+  <div class="otp-body">
+    <div class="otp-container">
+
+      <h1>Verify your Email</h1>
+      <p class="sub-text">Enter your registered email address to receive a 6-digit verification code.</p>
+
+      <% if (typeof error !=="undefined" ) { %>
+        <p class="error">
+          <%= error %>
+        </p>
+        <% } %>
+
+          <form action="/send-otp" method="POST" class="otp-form">
+
+            <input type="email" name="email" placeholder="Enter your email" required autofocus class="email-input">
+
+            <button type="submit" class="send-btn">Send OTP</button>
+          </form>
+
+          <p class="login-msg">
+          </p>
+
+    </div>
+  </div>

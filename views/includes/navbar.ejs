@@ -120,20 +120,28 @@
 
                                 <div class="profile-info">
                                     <ul class="profile">
-                                        <li><i class="fa-solid fa-user"></i> <b>
+                                        <li class="nav-link"><i class="fa-solid fa-user"></i> <b>
                                                 <%= currUser.username %>
                                             </b>
                                         </li>
-                                        <li><a class="nav-link" href="/logout"><b>Log out</b></a></li>
+                                        <% if(!currUser.isVerified) { %>
+                                            <li><a class="nav-link" href="/send-otp"><b>Verify Email</b></a></li>
+                                            <% } %>
+                                                <li><a class="nav-link" href="/logout"><b>Log out</b></a></li>
                                     </ul>
                                 </div>
                             </div>
 
                             <div class="non-user-icon">
-                                <i class="fa-solid fa-user"></i> <b>
-                                    <%= currUser.username %>
-                                </b>
-                                <a class="nav-link" href="/logout"><b>Log out</b></a>
+                                <div class="nav-link">
+                                    <i class="fa-solid fa-user"></i> <b>
+                                        <%= currUser.username %>
+                                    </b>
+                                </div>
+                                <% if(!currUser.isVerified) { %>
+                                    <a class="nav-link" href="/send-otp"><b>Verify Email</b></a>
+                                    <% } %>
+                                        <a class="nav-link" href="/logout"><b>Log out</b></a>
                             </div>
 
                             <% } %>

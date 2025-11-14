@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/user.js');
 const wrapAsync = require('../utils/wrapAsync');
 const passport = require('passport');
 const { saveRedirectUrl } = require('../middleware.js');
@@ -18,6 +17,15 @@ router.route('/signup')
     .get(userController.renderSignupForm)
     .post(wrapAsync(userController.signUp));
 
+// Send OTP Route -
+router.route('/send-otp')
+    .get(userController.renderSendOTPForm)
+    .post(wrapAsync(userController.sendOTP));
+
+// Verify OTP Route -
+router.route('/verify-otp')
+    .get(userController.renderVerifyOTPForm)
+    .post(wrapAsync(userController.verifyOTP));
 
 // Login Route-
 router.route('/login')

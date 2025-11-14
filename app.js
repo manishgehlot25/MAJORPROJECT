@@ -34,8 +34,8 @@ main()
 async function main() {
   await mongoose.connect(dbUrl, {
     ssl: true,
-    tlsAllowInvalidCertificates: true, // only for local testing, not production
-    // tlsInsecure: true                  // same as above
+    // tlsAllowInvalidCertificates: true, 
+    // tlsInsecure: true                  
   });
 }
 

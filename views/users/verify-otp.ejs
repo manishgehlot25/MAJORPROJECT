@@ -1,0 +1,177 @@
+<% layout('/layouts/boilerplate') %>
+
+  <style>
+    .otp-body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 70vh;
+    }
+
+    .otp-container {
+      background: white;
+      padding: 40px 50px;
+      border-radius: 18px;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 6px 28px rgba(0, 0, 0, 0.08);
+    }
+
+    h1 {
+      font-size: 26px;
+      margin-bottom: 8px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .sub-text {
+      color: #6b7280;
+      font-size: 14px;
+      margin-bottom: 28px;
+    }
+
+    .otp-input-box {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .otp-input {
+      width: 48px;
+      height: 52px;
+      font-size: 22px;
+      text-align: center;
+      border-radius: 12px;
+      border: 1.6px solid #d1d5db;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    .otp-input:focus {
+      border-color: #ff385c;
+      box-shadow: 0 0 6px rgba(255, 56, 108, .25);
+    }
+
+    .verify-btn {
+      background: #ff385c;
+      color: white;
+      border: none;
+      padding: 14px;
+      width: 100%;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.25s;
+    }
+
+    .verify-btn:hover {
+      transform: translateY(-2px);
+      background: #e62f50;
+    }
+
+    .resend {
+      margin-top: 16px;
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    .resend button {
+      border: none;
+      background: transparent;
+      color: #ff385c;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      color: #9ca3af;
+      cursor: not-allowed;
+    }
+
+    @media (max-width : 450px) {
+      .otp-input-box {
+        gap: 8px;
+      }
+
+      .otp-input {
+        width: 36px;
+        height: 40px;
+        font-size: 16px;
+      }
+    }
+  </style>
+
+  <div class="otp-body">
+    <div class="otp-container">
+      <h1>Verify your Email</h1>
+      <p class="sub-text">We sent a 6-digit code to <b>
+          <%= currUser.email %>
+        </b></p>
+
+      <form id="otpForm" action="/verify-otp" method="POST">
+        <input type="hidden" name="email" value="<%= currUser.email %>" />
+        <input type="hidden" id="otpFinal" name="otp">
+        <div class="otp-input-box">
+          <input type="text" maxlength="1" class="otp-input" autofocus>
+          <input type="text" maxlength="1" class="otp-input">
+          <input type="text" maxlength="1" class="otp-input">
+          <input type="text" maxlength="1" class="otp-input">
+          <input type="text" maxlength="1" class="otp-input">
+          <input type="text" maxlength="1" class="otp-input">
+        </div>
+
+        <button type="submit" class="verify-btn">Verify</button>
+      </form>
+
+      <p class="resend">Didn’t receive the code?
+        <button id="resendBtn" onclick="location.href='/send-otp'" disabled>Resend in <span
+            id="timer">30</span>s</button>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    const inputs = document.querySelectorAll(".otp-input");
+    const form = document.getElementById("otpForm");
+
+    // Auto move to next box
+    inputs.forEach((input, index) => {
+      input.addEventListener("input", () => {
+        if (input.value.length == 1 && index < inputs.length - 1) {
+          inputs[index + 1].focus();
+        }
+      });
+
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Backspace" && index > 0 && !input.value) {
+          inputs[index - 1].focus();
+        }
+      });
+    });
+
+    // Combine input values into hidden field before submit
+    form.addEventListener("submit", (e) => {
+      const otpValue = [...inputs].map(input => input.value).join("");
+      const hiddenInput = document.querySelector('input[name="otp"]');
+      hiddenInput.value = otpValue;
+    });
+
+    // Resend timer
+    let timer = 30;
+    const timerSpan = document.getElementById("timer");
+    const resendBtn = document.getElementById("resendBtn");
+
+    const countdown = setInterval(() => {
+      timer--;
+      timerSpan.textContent = timer;
+
+      if (timer <= 0) {
+        clearInterval(countdown);
+        resendBtn.disabled = false;
+        resendBtn.textContent = "Resend OTP";
+      }
+    }, 1000);
+  </script>

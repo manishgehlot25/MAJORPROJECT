@@ -32,10 +32,9 @@ async function getCoordinates(address) {
 // Example usage:
 let geoCode = (async () => {
     await getCoordinates('Statue of Liberty, New York, USA');
-    // await getAddress(40.689247, -74.044502);
+
 })()
     .then(result => {
-        // console.log(result); // This will log the resolved value
         return result;
     })
     .catch(err => {

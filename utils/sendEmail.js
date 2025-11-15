@@ -9,7 +9,7 @@ const FROM_EMAIL = process.env.EMAIL_FROM;
   const msg = {
     to: to,
     from: {
-      name: "WanderLust Team",
+      name: "WanderLust",
       email: FROM_EMAIL
     },
     subject: "Your WanderLust Email Verification Code",
@@ -48,8 +48,8 @@ If you did not request this email, you can ignore it.`,
 
     // Increase inbox placement probability
     headers: {
-      "List-Unsubscribe": `<mailto:${FROM_EMAIL}>`,   // Gmail likes this
-      "X-Entity-Ref-ID": "wanderlust-otp-system"      // Unique reference ID (reduces spam flag)
+      "List-Unsubscribe": `<mailto:${FROM_EMAIL}>`,   
+      "X-Entity-Ref-ID": "wanderlust-otp-system"  
     },
 
     // Helps debug issues
